@@ -19,13 +19,13 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*', '.pokestock.local', '.onceinluv.com'],
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
 
-    'exposed_headers' => ['XSRF-TOKEN','pokestock_session'],
+    'exposed_headers' => [],
 
     'max_age' => 0,
 
