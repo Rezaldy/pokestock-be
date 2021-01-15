@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -52,8 +53,14 @@ class AuthController extends Controller
         return '<script>window.close()</script>';
     }
 
-    public function user(): ?Authenticatable
+    public function user(): Authenticatable|JsonResponse|null
     {
-        return Auth::user();
+        if (Auth::check()) {
+            return Auth::user();
+        } else {
+            return response()->json([
+                'No user logged in.'
+            ]);
+        }
     }
 }
