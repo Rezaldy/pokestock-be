@@ -15,7 +15,7 @@ Route::get('/checkAuth', function () {
     return response()->json(Auth::check());
 });
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user', [AuthController::class, 'user']);
     Route::resource('shop', ShopController::class);
 
