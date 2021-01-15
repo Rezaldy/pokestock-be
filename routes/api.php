@@ -11,8 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/checkAuth', function () {
-    return response()->json(Auth::check());
+Route::get('/checkAuth', function (Request $request) {
+    return response()->json([Auth::check(),[...$request->session()->all()]]);
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
