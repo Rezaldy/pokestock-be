@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*', '.pokestock.local', '.onceinluv.com', '.shop.onceinluv.com'],
+    'allowed_origins' => ['*', '.pokestock.local', '.onceinluv.com'],
 
     'allowed_origins_patterns' => [],
 
