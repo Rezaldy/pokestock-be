@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/checkAuth', function (Request $request) {
-    return response()->json([Auth::check(),[...$request->session()->all()]]);
+    return response()->json([Auth::check(),...$request->session()->all()]);
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
