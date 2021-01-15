@@ -13,10 +13,7 @@ return [
     |
     */
 
-    'stateful' => explode(',', env(
-        'SANCTUM_STATEFUL_DOMAINS',
-        'onceinluv.com'
-    )),
+    'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', 'onceinluv.com')),
 
     /*
     |--------------------------------------------------------------------------
