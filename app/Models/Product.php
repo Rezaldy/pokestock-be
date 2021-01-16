@@ -36,7 +36,7 @@ class Product extends Model
      */
     public function productListings()
     {
-        return $this->hasMany(ProductListing::class);
+        return $this->hasMany(ProductListing::class)->orderBy('amount');
     }
 
     /**

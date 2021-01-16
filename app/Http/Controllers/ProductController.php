@@ -40,6 +40,7 @@ class ProductController extends Controller
     {
         $product = new Product;
         $product->amount_in_stock = $request->amount_in_stock;
+        $product->hidden_stock = $request->hidden_stock;
         $product->description = $request->description;
         $product->hidden = $request->hidden;
         $product->name = $request->name;
@@ -80,10 +81,11 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $product->name = $request->name;
-        $product->amount_in_stock = (int) $request->amount_in_stock;
+        $product->amount_in_stock = (int)$request->amount_in_stock;
+        $product->hidden_stock = (int)$request->hidden_stock;
         $product->description = $request->description;
         $product->hidden = $request->hidden;
-        $product->type = (int) $request->type;
+        $product->type = (int)$request->type;
         $product->save();
 
         return response()->json($product);
@@ -98,7 +100,7 @@ class ProductController extends Controller
     {
         /** @var Product $product */
         $product = Product::find($product);
-        foreach($product->productListings()->get() as $listing) {
+        foreach ($product->productListings()->get() as $listing) {
             ProductListing::destroy($listing->id);
         }
         Product::destroy($product->id);
@@ -120,4 +122,46 @@ class ProductController extends Controller
         $product->save();
         return response()->json($product);
     }
+
+    public function unhideMultiple(Request $request)
+    {
+        $ids = $request->all();
+        $productsToUnhide = array_map(function ($id) {
+            return Product::find($id);
+        }, $ids);
+
+        foreach ($productsToUnhide as $productToUnhide) {
+            $productToUnhide->hidden = false;
+            $productToUnhide->save();
+        }
+    }
+
+    public function removeMultiple(Request $request)
+    {
+        $ids = $request->all();
+        $productsToDelete = array_map(function ($id) {
+            return Product::with('productListings')->find($id);
+        }, $ids);
+
+        foreach ($productsToDelete as $productToDelete) {
+            foreach ($productToDelete->productListings as $listing) {
+                ProductListing::destroy($listing->id);
+            }
+            Product::destroy($productToDelete->id);
+        }
+    }
+
+    public function hideMultiple(Request $request)
+    {
+        $ids = $request->all();
+        $productsToHide = array_map(function ($id) {
+            return Product::find($id);
+        }, $ids);
+
+        foreach ($productsToHide as $productToHide) {
+            $productToHide->hidden = true;
+            $productToHide->save();
+        }
+    }
+
 }

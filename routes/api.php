@@ -28,6 +28,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             'products.productListings' => ProductProductListingController::class,
             'order' => OrderController::class,
         ]);
-        Route::post('products/{product}/image/upload', [ProductController::class, 'uploadImage']);
+        Route::post('/products/{product}/image/upload', [ProductController::class, 'uploadImage']);
+        Route::post('/products/unhide.multiple', [ProductController::class, 'unhideMultiple']);
+        Route::post('/products/remove.multiple', [ProductController::class, 'removeMultiple']);
+        Route::post('/products/hide.multiple', [ProductController::class, 'hideMultiple']);
     });
 });

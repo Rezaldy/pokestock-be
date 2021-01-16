@@ -14,6 +14,7 @@ class ProductListing extends Model
         'id',
         'amount',
         'isDiscount',
+        'hiddenStock',
     ];
 
     public function product() {

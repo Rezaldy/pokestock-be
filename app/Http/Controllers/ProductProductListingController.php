@@ -34,7 +34,7 @@ class ProductProductListingController extends Controller
         $newProductListing->amount     = $request->amount;
         $newProductListing->product_id = $request->product_id;
         $newProductListing->price      = $request->price;
-        $newProductListing->isDiscount = $request->isDiscount ? 1 : 0;
+        $newProductListing->isDiscount = $request->isDiscount === 'true' ? 1 : 0;
         $newProductListing->save();
 
         return response()->json($productListing);
@@ -81,7 +81,7 @@ class ProductProductListingController extends Controller
      * @param ProductListing $productListing
      * @return JsonResponse
      */
-    public function update(Request $request, ProductListing $productListing)
+    public function update(Request $request, Product $product, ProductListing $productListing)
     {
         $productListing->amount     = $request->amount;
         $productListing->price      = $request->price;
