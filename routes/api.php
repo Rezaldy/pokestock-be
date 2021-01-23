@@ -18,6 +18,8 @@ Route::get('/checkAuth', function (Request $request) {
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user', [AuthController::class, 'user']);
     Route::resource('shop', ShopController::class);
+    Route::post('shop/addToCart', [ShopController::class, 'addToCart']);
+    Route::post('shop/cart', [ShopController::class, 'getCart']);
 
     /**
      * ADMIN ROUTES FOR PRODUCT MANAGEMENT

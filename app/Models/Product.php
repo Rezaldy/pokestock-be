@@ -36,7 +36,9 @@ class Product extends Model
      */
     public function productListings()
     {
-        return $this->hasMany(ProductListing::class)->orderBy('amount');
+        return $this
+            ->hasMany(ProductListing::class)
+            ->orderBy('amount');
     }
 
     /**
@@ -46,6 +48,4 @@ class Product extends Model
     {
         return $this->hasManyThrough(Order::class, ProductListing::class);
     }
-
-
 }
