@@ -13,13 +13,16 @@ class ShopController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(
-            Product::where('hidden', false)
-                ->with('productListings')
-                ->get(['id', 'name', 'description', 'type', 'amount_in_stock', 'image'])
-        );
+        $query = Product::where('hidden', false)
+            ->with('productListings');
+
+        if ($request->type) {
+            $query->where('type', (int) $request->type);
+        }
+
+        return response()->json($query->get(['id', 'name', 'description', 'type', 'amount_in_stock', 'image']));
     }
 
     /**
@@ -94,8 +97,8 @@ class ShopController extends Controller
 
         $productToAdd = Product::find($request->order['product_id']);
 
-        if(array_key_exists($request->order['id'], $cart) && ($cart[$request->order['id']]['quantity'] + $request->quantity) > $productToAdd->amount_in_stock) {
-            return response()->json( ['Exceeds product stock'],400);
+        if (array_key_exists($request->order['id'], $cart) && ($cart[$request->order['id']]['quantity'] + $request->quantity) > $productToAdd->amount_in_stock) {
+            return response()->json(['Exceeds product stock'], 400);
         }
 
         $cart[$request->order['id']] = [
