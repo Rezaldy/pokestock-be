@@ -10,11 +10,12 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'quantity',
-        'isFulfilled',
-        'fulfilledAt',
-        'fulfilledBy',
+        'customer_id',
+        'totalPrice',
+        'paymentReference',
+        'requiresBulk',
+        'bulkSpecifics',
+        'futurePackRequest',
     ];
 
     public function orderLine() {
