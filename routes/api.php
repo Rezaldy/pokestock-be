@@ -20,6 +20,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::resource('shop', ShopController::class);
     Route::post('shop/addToCart', [ShopController::class, 'addToCart']);
     Route::post('shop/cart', [ShopController::class, 'getCart']);
+    Route::post('shop/cart/clear', [ShopController::class, 'clearCart']);
 
     /**
      * ADMIN ROUTES FOR PRODUCT MANAGEMENT

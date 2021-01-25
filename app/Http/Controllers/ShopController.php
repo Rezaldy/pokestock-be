@@ -118,4 +118,11 @@ class ShopController extends Controller
     {
         return response()->json(session('cart'));
     }
+
+    public function clearCart()
+    {
+        session(['cart' => []]);
+
+        return response()->json(session('cart'));
+    }
 }

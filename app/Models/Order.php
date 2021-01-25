@@ -11,22 +11,21 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
-        'product_listing_id',
         'quantity',
         'isFulfilled',
         'fulfilledAt',
         'fulfilledBy',
     ];
 
-    public function product() {
-        $this->hasOneThrough(Product::class, ProductListing::class);
+    public function orderLine() {
+        $this->hasMany(OrderLine::class);
     }
 
-    public function productListing() {
-        $this->belongsTo(ProductListing::class);
+    public function productListings() {
+        $this->hasManyThrough(ProductListing::class,OrderLine::class);
     }
 
-    public function user() {
+    public function customer() {
         $this->belongsTo(User::class);
     }
 }
