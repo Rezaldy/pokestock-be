@@ -179,6 +179,11 @@ return [
          * Socialite
          */
         SocialiteProviders\Manager\ServiceProvider::class,
+
+        /*
+         * Model auditing
+         */
+        OwenIt\Auditing\AuditingServiceProvider::class,
     ],
 
     /*

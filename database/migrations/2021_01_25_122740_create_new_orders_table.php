@@ -20,9 +20,10 @@ class CreateNewOrdersTable extends Migration
             $table->foreign('customer_id')
                 ->references('id')
                 ->on('orders');
-            $table->float('totalPrice');
-            $table->string('paymentReference');
-            $table->boolean('requiresBulk');
+            $table->float('totalPrice')->default(0);
+            $table->string('paymentReference')->nullable();
+            $table->boolean('includesBulk')->default(false);
+            $table->boolean('includesCodes')->default(false);
             $table->longText('bulkSpecifics')->nullable();
             $table->longText('futurePackRequest')->nullable();
         });

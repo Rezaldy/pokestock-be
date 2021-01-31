@@ -21,6 +21,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('shop/addToCart', [ShopController::class, 'addToCart']);
     Route::post('shop/cart', [ShopController::class, 'getCart']);
     Route::post('shop/cart/clear', [ShopController::class, 'clearCart']);
+    Route::post('shop/cart/submit', [OrderController::class, 'submitCart']);
+    Route::resource('orders', OrderController::class);
 
     /**
      * ADMIN ROUTES FOR PRODUCT MANAGEMENT
@@ -29,11 +31,15 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::resources([
             'products' => ProductController::class,
             'products.productListings' => ProductProductListingController::class,
-            'order' => OrderController::class,
         ]);
         Route::post('/products/{product}/image/upload', [ProductController::class, 'uploadImage']);
         Route::post('/products/unhide.multiple', [ProductController::class, 'unhideMultiple']);
         Route::post('/products/remove.multiple', [ProductController::class, 'removeMultiple']);
         Route::post('/products/hide.multiple', [ProductController::class, 'hideMultiple']);
+
+        /*
+         * Audits
+         */
+        Route::get('/products/{product}/audits', [ProductController::class, 'showAudits']);
     });
 });

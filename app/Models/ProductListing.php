@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class ProductListing extends Model
+class ProductListing extends Model implements Auditable
 {
     use HasFactory;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'product_id',
@@ -18,10 +20,10 @@ class ProductListing extends Model
     ];
 
     public function product() {
-        $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class);
     }
 
     public function orders() {
-        $this->hasMany(Order::class);
+        return $this->hasMany(Order::class);
     }
 }

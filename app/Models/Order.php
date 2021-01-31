@@ -13,20 +13,21 @@ class Order extends Model
         'customer_id',
         'totalPrice',
         'paymentReference',
-        'requiresBulk',
+        'includesBulk',
+        'includesCodes',
         'bulkSpecifics',
         'futurePackRequest',
     ];
 
     public function orderLine() {
-        $this->hasMany(OrderLine::class);
+        return $this->hasMany(OrderLine::class);
     }
 
     public function productListings() {
-        $this->hasManyThrough(ProductListing::class,OrderLine::class);
+        return $this->hasManyThrough(ProductListing::class,OrderLine::class);
     }
 
     public function customer() {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 }

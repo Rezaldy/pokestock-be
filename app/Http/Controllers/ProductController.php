@@ -61,6 +61,17 @@ class ProductController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param int $product
+     * @return JsonResponse
+     */
+    public function showAudits(int $product)
+    {
+        return response()->json(Product::find($product)->audits()->with('user')->get());
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param Product $product

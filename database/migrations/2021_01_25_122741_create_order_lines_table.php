@@ -24,8 +24,8 @@ class CreateOrderLinesTable extends Migration
             $table->foreign('product_listing_id')
                 ->references('id')
                 ->on('product_listings');
-            $table->integer('quantity');
-            $table->boolean('isCompleted');
+            $table->integer('quantity')->default(0);
+            $table->boolean('isCompleted')->default(false);
         });
     }
 

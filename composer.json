@@ -17,6 +17,7 @@
         "laravel/sanctum": "^2.8",
         "laravel/socialite": "^5.1",
         "laravel/tinker": "^2.5",
+        "owen-it/laravel-auditing": "^12.0",
         "socialiteproviders/discord": "^4.1",
         "socialiteproviders/twitch": "^5.3"
     },

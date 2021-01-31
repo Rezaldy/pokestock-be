@@ -14,7 +14,7 @@ class AddHiddenStock extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->integer('hidden_stock');
+            $table->integer('hidden_stock')->default(0);
         });
     }
 

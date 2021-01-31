@@ -26,7 +26,6 @@ class ProductListingFactory extends Factory
             'product_id' => Product::all()->random()->id,
             'amount' => $this->faker->randomElement([1,10,25]),
             'price' => $this->faker->randomFloat(2, 10, 150),
-            'isHidden' => $this->faker->boolean(60),
         ];
     }
 }

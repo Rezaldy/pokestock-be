@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\OrderLine;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class ShopController extends Controller
 {
@@ -19,7 +23,7 @@ class ShopController extends Controller
             ->with('productListings');
 
         if ($request->type) {
-            $query->where('type', (int) $request->type);
+            $query->where('type', (int)$request->type);
         }
 
         return response()->json($query->get(['id', 'name', 'description', 'type', 'amount_in_stock', 'image']));
