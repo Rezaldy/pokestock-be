@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderLine;
+use App\Models\Product;
+use App\Models\ProductListing;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,9 +24,9 @@ class OrderController extends Controller
         $user = User::find(Auth::user()->id);
 
         if ($user->isAdmin) {
-            $query = Order::with('customer');
+            $query = Order::with(['customer', 'orderLines']);
         } else {
-            $query = Order::with('customer')->where('customer_id', $user->id);a
+            $query = Order::with('customer')->where('customer_id', $user->id);
         }
 
         return response()->json($query->get());
@@ -123,10 +125,19 @@ class OrderController extends Controller
          * Generate orderlines
          */
         foreach ($cart as $cartItem) {
+            $pl = ProductListing::with('product')->find($cartItem['order']['id']);
+            $product = Product::find($pl->product_id);
+
+            // Deduct quantity from stock
+            $product->amount_in_stock -= ($cartItem['quantity'] * $pl->amount);
+            $product->save();
+
+            // Create orderline
             OrderLine::create([
                 'order_id' => $order->id,
-                'product_listing_id' => $cartItem['order']['id'],
+                'product_listing_id' => $pl->id,
                 'quantity' => $cartItem['quantity'],
+                'amount' => $cartItem['quantity'] * $pl->amount,
                 'isCompleted' => false,
             ]);
         }

@@ -19,12 +19,8 @@ class Order extends Model
         'futurePackRequest',
     ];
 
-    public function orderLine() {
-        return $this->hasMany(OrderLine::class);
-    }
-
-    public function productListings() {
-        return $this->hasManyThrough(ProductListing::class,OrderLine::class);
+    public function orderLines() {
+        return $this->hasMany(OrderLine::class)->with('productListing');
     }
 
     public function customer() {

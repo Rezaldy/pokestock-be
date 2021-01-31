@@ -13,6 +13,12 @@ class OrderLine extends Model
         'order_id',
         'product_listing_id',
         'quantity',
+        'amount',
         'isCompleted',
     ];
+
+    public function productListing()
+    {
+        return $this->belongsto(ProductListing::class)->with('product');
+    }
 }
