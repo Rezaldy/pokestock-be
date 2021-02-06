@@ -121,10 +121,10 @@ class OrderController extends Controller
         $order = Order::create([
             'customer_id' => $user->id,
             'totalPrice' => $orderSubTotal,
-            'includesBulk' => $request->additionalData['includeBulk'],
-            'includesCodes' => $request->additionalData['includeCodes'],
-            'bulkSpecifics' => $request->additionalData['bulkSpecifics'],
-            'futurePackRequest' => $request->additionalData['futurePackRequests'],
+            'includesBulk' => $request->additionalData['includeBulk'] ?? '',
+            'includesCodes' => $request->additionalData['includeCodes'] ?? '',
+            'bulkSpecifics' => $request->additionalData['bulkSpecifics'] ?? '',
+            'futurePackRequest' => $request->additionalData['futurePackRequests'] ?? '',
         ]);
 
         /*
