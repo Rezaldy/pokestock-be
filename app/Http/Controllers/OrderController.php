@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -57,11 +61,13 @@ class OrderController extends Controller
      * Display the specified resource.
      *
      * @param Order $order
-     * @return Response
+     * @return JsonResponse
      */
-    public function show(Order $order)
+    public function show(Request $request, Order $order)
     {
-        //
+        $order = Order::with(['customer', 'orderLines'])->where('id', $order->id)->first();
+
+        return response()->json($order);
     }
 
     /**
@@ -148,6 +154,71 @@ class OrderController extends Controller
 
         $newCart = session(['cart', []]);
 
-        return response()->json();
+        return response()->json($newCart);
+    }
+
+    public function toggleOrderLineCompletion(Request $request, Order $order, OrderLine $orderLine) {
+        $orderLine->isCompleted = !$orderLine->isCompleted;
+        $orderLine->save();
+    }
+
+    public function submitPaymentReference(Request $request, Order $order) {
+        $request->validate([
+            'paymentReference' => ['required']
+        ]);
+
+        $order->paymentReference = $request->paymentReference;
+        $order->isPaid = true;
+        $order->save();
+    }
+
+    public function declinePayment(Request $request, Order $order) {
+        $order->isPaid = false;
+        $order->paymentReference = null;
+        $order->save();
+    }
+
+    public function confirmPayment(Request $request, Order $order) {
+        $order->paymentConfirmed = true;
+        $order->save();
+    }
+
+    public function cancel(Request $request, Order $order) {
+        if ($order->isCompleted) {
+            return;
+        }
+
+        // Return stock
+        $orderLines = $order->orderLines();
+
+        foreach ($orderLines as $orderLine) {
+            /** @var OrderLine $orderLine */
+            /** @var ProductListing $productListing */
+            $productListing = $orderLine->productListing;
+            $product = $productListing->product;
+            $quantity = $orderLine->quantity;
+            $stockToReturn = $productListing->amount * $quantity;
+
+            $product->amount_in_stock += $stockToReturn;
+        }
+
+        // Set order as cancelled
+        $order->isCancelled = true;
+        $order->save();
+    }
+
+    public function complete(Request $request, Order $order) {
+        $order->isCompleted = true;
+        $order->save();
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @return JsonResponse
+     */
+    public function showAudits(Request $request, Order $order)
+    {
+        return response()->json($order->audits()->with('user')->get());
     }
 }

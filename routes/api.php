@@ -24,6 +24,13 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('shop/cart/submit', [OrderController::class, 'submitCart']);
     Route::resource('orders', OrderController::class);
 
+    /*
+     * Order changes
+     */
+    Route::group(['middleware' => 'order.authorized'], function () {
+        Route::post('/orders/{order}/submitPaymentReference', [OrderController::class, 'submitPaymentReference']);
+    });
+
     /**
      * ADMIN ROUTES FOR PRODUCT MANAGEMENT
      */
@@ -38,8 +45,18 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/products/hide.multiple', [ProductController::class, 'hideMultiple']);
 
         /*
+         * Order changes
+         */
+        Route::post('/orders/{order}/orderLine/{orderLine}/toggleCompletion', [OrderController::class, 'toggleOrderLineCompletion']);
+        Route::post('/orders/{order}/declinePayment',   [OrderController::class, 'declinePayment']);
+        Route::post('/orders/{order}/confirmPayment',   [OrderController::class, 'confirmPayment']);
+        Route::post('/orders/{order}/cancel',           [OrderController::class, 'cancel']);
+        Route::post('/orders/{order}/complete',         [OrderController::class, 'complete']);
+
+        /*
          * Audits
          */
         Route::get('/products/{product}/audits', [ProductController::class, 'showAudits']);
+        Route::get('/orders/{order}/audits', [OrderController::class, 'showAudits']);
     });
 });
