@@ -14,9 +14,7 @@ class AddAmountToOrderLines extends Migration
     public function up()
     {
         Schema::table('order_lines', function (Blueprint $table) {
-            Schema::table('products', function (Blueprint $table) {
-                $table->integer('amount')->default(0);
-            });
+            $table->integer('amount')->default(0);
         });
     }
 
