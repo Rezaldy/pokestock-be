@@ -34,7 +34,7 @@ class OrderController extends Controller
         }
 
         if (isset($request->status)) {
-            $query->where('status', '=', $request->status);
+            $query->whereIn('status', $request->status);
         }
 
         return response()->json($query->get());
@@ -188,7 +188,7 @@ class OrderController extends Controller
     }
 
     public function cancel(Request $request, Order $order) {
-        if ($order->status = 'completed') {
+        if ($order->status === 'completed') {
             return;
         }
 
