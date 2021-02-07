@@ -23,7 +23,7 @@ class OrderController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = User::find(Auth::user()->id);
 
@@ -31,6 +31,10 @@ class OrderController extends Controller
             $query = Order::with(['customer', 'orderLines']);
         } else {
             $query = Order::with('customer')->where('customer_id', $user->id);
+        }
+
+        if (isset($request->status)) {
+            $query->where('status', '=', $request->status);
         }
 
         return response()->json($query->get());
@@ -168,23 +172,23 @@ class OrderController extends Controller
         ]);
 
         $order->paymentReference = $request->paymentReference;
-        $order->isPaid = true;
+        $order->status = 'paid';
         $order->save();
     }
 
     public function declinePayment(Request $request, Order $order) {
-        $order->isPaid = false;
+        $order->status = 'new';
         $order->paymentReference = null;
         $order->save();
     }
 
     public function confirmPayment(Request $request, Order $order) {
-        $order->paymentConfirmed = true;
+        $order->status = 'paymentConfirmed';
         $order->save();
     }
 
     public function cancel(Request $request, Order $order) {
-        if ($order->isCompleted) {
+        if ($order->status = 'completed') {
             return;
         }
 
@@ -204,12 +208,12 @@ class OrderController extends Controller
         }
 
         // Set order as cancelled
-        $order->isCancelled = true;
+        $order->status = 'cancelled';
         $order->save();
     }
 
     public function complete(Request $request, Order $order) {
-        $order->isCompleted = true;
+        $order->status = 'completed';
         $order->save();
     }
 
