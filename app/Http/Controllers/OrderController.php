@@ -112,7 +112,7 @@ class OrderController extends Controller
         $orderSubTotal = 0;
 
         foreach ($cart as $cartItem) {
-            $orderSubTotal += $cartItem['order']['price'];
+            $orderSubTotal += ($cartItem['order']['price'] * $cartItem['quantity']);
         }
 
         /*
@@ -200,6 +200,7 @@ class OrderController extends Controller
             $stockToReturn = $productListing->amount * $quantity;
 
             $product->amount_in_stock += $stockToReturn;
+            $product->save();
         }
 
         // Set order as cancelled
