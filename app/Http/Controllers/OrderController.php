@@ -193,7 +193,7 @@ class OrderController extends Controller
         }
 
         // Return stock
-        $orderLines = $order->orderLines();
+        $orderLines = $order->orderLines()->get();
 
         foreach ($orderLines as $orderLine) {
             /** @var OrderLine $orderLine */
