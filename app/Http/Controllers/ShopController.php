@@ -22,7 +22,7 @@ class ShopController extends Controller
         $query = Product::where('hidden', false)
             ->with('productListings');
 
-        if ($request->type) {
+        if ($request->type !== null) {
             $query->where('type', (int)$request->type);
         }
 
