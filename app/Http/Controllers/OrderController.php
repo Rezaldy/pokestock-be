@@ -177,7 +177,7 @@ class OrderController extends Controller
     }
 
     public function declinePayment(Request $request, Order $order) {
-        $order->status = 'new';
+        $order->status = 'unpaid';
         $order->paymentReference = null;
         $order->save();
     }

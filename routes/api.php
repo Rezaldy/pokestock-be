@@ -31,6 +31,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/orders/{order}/submitPaymentReference', [OrderController::class, 'submitPaymentReference']);
     });
 
+    // Order cancel
+    Route::post('/orders/{order}/cancel',           [OrderController::class, 'cancel']);
+
     /**
      * ADMIN ROUTES FOR PRODUCT MANAGEMENT
      */
@@ -50,7 +53,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/orders/{order}/orderLine/{orderLine}/toggleCompletion', [OrderController::class, 'toggleOrderLineCompletion']);
         Route::post('/orders/{order}/declinePayment',   [OrderController::class, 'declinePayment']);
         Route::post('/orders/{order}/confirmPayment',   [OrderController::class, 'confirmPayment']);
-        Route::post('/orders/{order}/cancel',           [OrderController::class, 'cancel']);
         Route::post('/orders/{order}/complete',         [OrderController::class, 'complete']);
 
         /*
