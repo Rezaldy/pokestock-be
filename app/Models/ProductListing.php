@@ -21,7 +21,7 @@ class ProductListing extends Model implements Auditable
     ];
 
     public function product() {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class)->withTrashed();
     }
 
     public function orders() {
