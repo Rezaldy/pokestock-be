@@ -11,6 +11,7 @@ class ProductListing extends Model implements Auditable
 {
     use HasFactory;
     use \OwenIt\Auditing\Auditable;
+    use SoftDeletes;
 
     protected $fillable = [
         'product_id',
