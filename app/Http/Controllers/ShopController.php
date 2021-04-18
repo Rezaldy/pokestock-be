@@ -26,7 +26,8 @@ class ShopController extends Controller
         ];
 
         $query = Product::where('hidden', false)
-            ->with('productListings');
+            ->with('productListings')
+            ->where('amount_in_stock', '>', 0);
 
         if ($request->type !== null) {
             $query->where('type', (int)$request->type);
