@@ -19,11 +19,19 @@ class ShopController extends Controller
      */
     public function index(Request $request)
     {
+        // Types to hide from All Products page
+        $typesToHide = [
+            5, // Group Break
+            99, // Shipping
+        ];
+
         $query = Product::where('hidden', false)
             ->with('productListings');
 
         if ($request->type !== null) {
             $query->where('type', (int)$request->type);
+        } else {
+            $query->whereNotIn('type', $typesToHide);
         }
 
         return response()->json($query->get(['id', 'name', 'description', 'type', 'amount_in_stock', 'image']));

@@ -155,10 +155,9 @@ class ProductController extends Controller
         }, $ids);
 
         foreach ($productsToDelete as $productToDelete) {
-            foreach ($productToDelete->productListings as $listing) {
-                ProductListing::destroy($listing->id);
+            if ($productToDelete) {
+                $productToDelete->delete();
             }
-            Product::destroy($productToDelete->id);
         }
     }
 

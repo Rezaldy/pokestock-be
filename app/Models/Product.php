@@ -4,19 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Product extends Model implements Auditable
 {
     use HasFactory;
     use \OwenIt\Auditing\Auditable;
+    use SoftDeletes;
 
     public const TYPES = [
-        'single'        => 0,
-        'etb'           => 1,
-        'tin'           => 2,
-        'boosterbox'    => 3,
-        'miscbox'       => 4,
+        'single'                => 0,
+        'etb'                   => 1,
+        'tin'                   => 2,
+        'boosterbox'            => 3,
+        'miscbox'               => 4,
+        'groupbreak'            => 5,
+        'jpboosterbox'    => 6,
+        'shipping'              => 99,
     ];
 
     /**
